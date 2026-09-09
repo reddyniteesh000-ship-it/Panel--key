@@ -1,153 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel Key Generator</title>
 
-  <title>Panel Key Generator</title>
+<style>
+* {
+  box-sizing: border-box;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f1115;
+  color: white;
+}
 
-    body {
-      background: #101114;
-      color: white;
-      min-height: 100vh;
-      padding: 20px;
-    }
+.container {
+  width: 92%;
+  max-width: 500px;
+  margin: 30px auto;
+}
 
-    .container {
-      max-width: 500px;
-      margin: auto;
-    }
+h1 {
+  text-align: center;
+  margin-bottom: 8px;
+}
 
-    h1 {
-      text-align: center;
-      margin: 20px 0 10px;
-    }
+.subtitle {
+  text-align: center;
+  color: #999;
+  margin-bottom: 25px;
+}
 
-    .subtitle {
-      text-align: center;
-      color: #aaa;
-      margin-bottom: 25px;
-    }
+.card {
+  background: #191c22;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #30343d;
+}
 
-    .card {
-      background: #1b1d22;
-      border: 1px solid #30333a;
-      border-radius: 15px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
+label {
+  display: block;
+  margin: 12px 0 7px;
+  color: #ccc;
+}
 
-    label {
-      display: block;
-      margin-bottom: 8px;
-      color: #ccc;
-    }
+input {
+  width: 100%;
+  padding: 13px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #0d0f13;
+  color: white;
+  font-size: 16px;
+}
 
-    input {
-      width: 100%;
-      padding: 13px;
-      margin-bottom: 15px;
-      border: 1px solid #444;
-      border-radius: 8px;
-      background: #111318;
-      color: white;
-      font-size: 16px;
-    }
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 18px;
+  border: 0;
+  border-radius: 8px;
+  background: #238636;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+}
 
-    button {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: 8px;
-      background: #238636;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-top: 5px;
-    }
+button:active {
+  transform: scale(0.98);
+}
 
-    button:hover {
-      opacity: 0.9;
-    }
+.key {
+  background: #0d0f13;
+  border: 1px dashed #555;
+  padding: 14px;
+  margin-top: 15px;
+  border-radius: 8px;
+  text-align: center;
+  word-break: break-all;
+  font-weight: bold;
+}
 
-    .key-box {
-      margin-top: 20px;
-      padding: 15px;
-      background: #111318;
-      border: 1px dashed #555;
-      border-radius: 8px;
-      text-align: center;
-      word-break: break-all;
-      font-size: 18px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
+.copy {
+  background: #30363d;
+  margin-top: 10px;
+}
 
-    .copy {
-      background: #30363d;
-      margin-top: 10px;
-    }
+.key-item {
+  background: #0d0f13;
+  padding: 13px;
+  margin-top: 10px;
+  border-radius: 8px;
+  word-break: break-all;
+}
 
-    .keys-list {
-      margin-top: 15px;
-    }
+.empty {
+  color: #777;
+  text-align: center;
+}
 
-    .key-item {
-      background: #111318;
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: 10px;
-      font-size: 14px;
-      word-break: break-all;
-    }
-
-    .empty {
-      color: #888;
-      text-align: center;
-      padding: 10px;
-    }
-
-    .footer {
-      text-align: center;
-      color: #777;
-      font-size: 13px;
-      margin-top: 30px;
-    }
-  </style>
+footer {
+  text-align: center;
+  color: #666;
+  margin-top: 30px;
+  font-size: 13px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
+<div class="container">
 
-    <h1>🔑 Panel Key Generator</h1>
+  <h1>🔑 Panel Key</h1>
+  <div class="subtitle">Key Generator</div>
 
-    <p class="subtitle">
-      Create and manage your panel keys
-    </p>
+  <div class="card">
 
-    <div class="card">
+    <label>Key Prefix</label>
+    <input id="prefix" value="PANEL" placeholder="Enter prefix">
 
-      <label>Key Prefix</label>
+    <label>Number of Keys</label>
+    <input id="amount" type="number" value="1" min="1" max="20">
 
-      <input
-        type="text"
-        id="prefix"
-        placeholder="Example: PANEL"
-        value="PANEL"
-      >
+    <button onclick="generateKeys()">
+      Generate Keys
+    </button>
 
-      <label>Number of Keys</label>
+    <div id="result"></div>
 
-      <input
-        type="number"
-        id="amount
+  </div>
+
+  <div class="card">
+
+    <h2>Generated Keys</h2>
+
+    <div id="keyList">
+      <div class="empty">No keys generated</div>
+    </div>
+
+  </div>
+
+  <footer>
+    Panel Key Generator
+  </footer>
+
+</div>
+
+<script>
+
+let keys = [];
+
+function randomCharacters(length) {
+
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  let result = "";
+
+  for (let i = 0; i < length; i++) {
+
+    result += characters[
+      Math.floor(Math.random() * characters.length)
+    ];
+
+  }
+
+  return result;
+}
+
+function createKey(prefix) {
+
+  return prefix.toUpperCase() + "-" +
+         randomCharacters(4) + "-" +
+         randomCharacters(4) + "-" +
+         randomCharacters(4);
+
+}
+
+function generateKeys() {
+
+  const prefix =
+    document.getElementById("prefix").value.trim() || "PANEL";
+
+  let amount =
+    parseInt(document.getElementById("amount").value) || 1;
+
+  if (amount < 1) amount = 1;
+  if (amount > 20) amount = 20;
+
+  keys = [];
+
+  for (let i = 0; i < amount; i++) {
+
+    keys.push(createKey(prefix));
+
+  }
+
+  displayKeys();
+
+  document.getElementById("result").innerHTML = `
+    <div class="key">${keys[0]}</div>
+
+    <button class="copy" onclick="copyKey()">
+      📋 Copy First Key
+    </button>
+  `;
+
+}
+
+function displayKeys() {
+
+  const list =
+    document.getElementById("keyList");
+
+  list.innerHTML = "";
+
+  keys.forEach((key, index) => {
+
+    list.innerHTML += `
+      <div class="key-item">
+        <b>Key ${index + 1}</b><br><br>
+        ${key}
+      </div>
+    `;
+
+  });
+
+}
+
+function copyKey() {
+
+  if (keys.length === 0) return;
+
+  navigator.clipboard.writeText(keys[0]);
+
+  alert("Key copied successfully!");
+
+}
+
+</script>
+
+</body>
+</html>
