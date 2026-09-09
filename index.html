@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free Fire Panel</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0b0f16;
+  color:white;
+}
+.container{
+  width:92%;
+  max-width:500px;
+  margin:25px auto;
+}
+h1{text-align:center}
+.subtitle{
+  text-align:center;
+  color:#9ca3af;
+}
+.card{
+  background:#151b25;
+  padding:20px;
+  border-radius:16px;
+  margin:18px 0;
+  border:1px solid #283242;
+}
+label{
+  display:block;
+  margin:14px 0 7px;
+  color:#d1d5db;
+}
+input,select{
+  width:100%;
+  padding:13px;
+  border-radius:9px;
+  border:1px solid #374151;
+  background:#0b0f16;
+  color:white;
+  font-size:16px;
+}
+button{
+  width:100%;
+  padding:14px;
+  margin-top:18px;
+  border:0;
+  border-radius:9px;
+  background:#22c55e;
+  color:white;
+  font-size:16px;
+  font-weight:bold;
+}
+button:active{transform:scale(.98)}
+.key{
+  margin-top:15px;
+  padding:14px;
+  background:#0b0f16;
+  border:1px dashed #4b5563;
+  border-radius:9px;
+  text-align:center;
+  word-break:break-all;
+}
+.keyItem{
+  background:#0b0f16;
+  padding:14px;
+  margin-top:10px;
+  border-radius:9px;
+  word-break:break-all;
+}
+.delete{
+  background:#dc2626;
+  margin-top:10px;
+}
+.copy{
+  background:#374151;
+}
+.status{
+  color:#22c55e;
+  font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>🔥 Free Fire Panel</h1>
+<p class="subtitle">Key Management Dashboard</p>
+
+<div class="card">
+
+<h2>Generate Key</h2>
+
+<label>Key Prefix</label>
+<input id="prefix" value="FF">
+
+<label>Duration</label>
+<select id="duration">
+  <option value="1">1 Day</option>
+  <option value="7">7 Days</option>
+  <option value="30">30 Days</option>
+  <option value="365">1 Year</option>
+</select>
+
+<button onclick="generateKey()">🔑 Generate Key</button>
+
+<div id="newKey"></div>
+
+</div>
+
+<div class="card">
+
+<h2>Generated Keys</h2>
+
+<div id="keys">
+  <p style="color:#777;text-align:center">
+    No keys generated
+  </p>
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let keys = [];
+
+function randomText(length){
+
+  const chars =
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+  let text="";
+
+  for(let i=0;i<length;i++){
+
+    text += chars[
+      Math.floor(Math.random()*chars.length)
+    ];
+
+  }
+
+  return text;
+}
+
+function generateKey(){
+
+  let prefix =
+  document.getElementById("prefix")
+  .value.trim()
+  .toUpperCase() || "FF";
+
+  let days =
+  document.getElementById("duration").value;
+
+  let key =
+  prefix + "-" +
+  randomText(4) + "-" +
+  randomText(4) + "-" +
+  randomText(4);
+
+  let expiry =
+  new Date(
+    Date.now() +
+    days * 24 * 60 * 60 * 1000
+  ).toLocaleDateString();
+
+  keys.push({
+    key:key,
+    expiry:expiry
+  });
+
+  document.getElementById("newKey").innerHTML =
+  `
+  <div class="key">${key}</div>
+
+  <button class="copy"
+  onclick="copyKey('${key}')">
+  📋 Copy Key
+  </button>
+  `;
+
+  showKeys();
+}
+
+function showKeys(){
+
+  let box =
+  document.getElementById("keys");
+
+  box.innerHTML="";
+
+  keys.forEach((item,index)=>{
+
+    box.innerHTML +=
+    `
+    <div class="keyItem">
+
+      <b>${item.key}</b>
+
+      <br><br>
+
+      Expiry:
+      ${item.expiry}
+
+      <br><br>
+
+      Status:
+      <span class="status">ACTIVE</span>
+
+      <button class="delete"
+      onclick="deleteKey(${index})">
+      Delete
+      </button>
+
+    </div>
+    `;
+
+  });
+
+}
+
+function deleteKey(index){
+
+  keys.splice(index,1);
+
+  showKeys();
+
+}
+
+function copyKey(key){
+
+  navigator.clipboard.writeText(key);
+
+  alert("Key copied!");
+
+}
+
+</script>
+
+</body>
+</html>
